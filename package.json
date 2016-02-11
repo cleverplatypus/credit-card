@@ -6,7 +6,7 @@
   "main": "dist/credit-card-browserified.js",
   "homepage": "https://github.com/continuationlabs/credit-card",
   "scripts" : {
-    "postinstall" : "browserify ./lib/index.js > ./lib/credit-card-browser.js"
+    "postinstall" : "browserify ./lib/exports.js > ./lib/credit-card-browserified.js"
   },
   "repository": {
     "type": "git",
