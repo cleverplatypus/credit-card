@@ -3,8 +3,11 @@
   "version": "2.0.0",
   "description": "credit card validation",
   "author": "Continuation Labs <contact@continuation.io> (http://continuation.io/)",
-  "main": "lib/index.js",
+  "main": "dist/credit-card-browserified.js",
   "homepage": "https://github.com/continuationlabs/credit-card",
+  "scripts" : {
+    "postinstall" : "browserify ./lib/index.js > ./lib/credit-card-browser.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/continuationlabs/credit-card"
@@ -24,6 +27,7 @@
   },
   "devDependencies": {
     "belly-button": "1.x.x",
+    "browserify": "^13.0.0",
     "code": "2.x.x",
     "lab": "8.x.x"
   },
