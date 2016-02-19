@@ -1,3 +1,7 @@
+"use strict";
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
 (function e(t, n, r) {
   function s(o, u) {
     if (!n[o]) {
@@ -7,15 +11,17 @@
         var n = t[o][1][e];return s(n ? n : e);
       }, l, l.exports, e, t, n, r);
     }return n[o].exports;
-  }var i = typeof require == "function" && require;for (var o = 0; o < r.length; o++) s(r[o]);return s;
+  }var i = typeof require == "function" && require;for (var o = 0; o < r.length; o++) {
+    s(r[o]);
+  }return s;
 })({ 1: [function (require, module, exports) {
     window.creditCardValidator = require('./index.js');
   }, { "./index.js": 2 }], 2: [function (require, module, exports) {
     'use strict';
 
-    const Reach = require('reach');
+    var Reach = require('reach');
 
-    let _defaults = {
+    var _defaults = {
       cardTypes: {
         VISA: {
           cardType: 'VISA',
@@ -80,20 +86,20 @@
     _setupCardTypeAliases('JCB', ['jcb']);
 
     // Store original defaults. This must happen after aliases are setup
-    const _originalDefaults = Object.assign({}, _defaults);
+    var _originalDefaults = Object.assign({}, _defaults);
 
     function validate(card, options) {
       card = card || {};
 
-      const settings = Object.assign({}, _defaults, options);
-      const schema = settings.schema;
-      const cardType = Reach(card, schema.cardType);
-      const number = sanitizeNumberString(Reach(card, schema.number));
-      const expiryMonth = Reach(card, schema.expiryMonth);
-      const expiryYear = Reach(card, schema.expiryYear);
-      const cvv = sanitizeNumberString(Reach(card, schema.cvv));
-      const customValidationFn = settings.customValidation;
-      let customValidation;
+      var settings = Object.assign({}, _defaults, options);
+      var schema = settings.schema;
+      var cardType = Reach(card, schema.cardType);
+      var number = sanitizeNumberString(Reach(card, schema.number));
+      var expiryMonth = Reach(card, schema.expiryMonth);
+      var expiryYear = Reach(card, schema.expiryYear);
+      var cvv = sanitizeNumberString(Reach(card, schema.cvv));
+      var customValidationFn = settings.customValidation;
+      var customValidation = undefined;
 
       // Optional custom validation
       if (typeof customValidationFn === 'function') {
@@ -101,26 +107,26 @@
       }
 
       return {
-        card,
+        card: card,
         validCardNumber: isValidCardNumber(number, cardType, settings.cardTypes),
         validExpiryMonth: isValidExpiryMonth(expiryMonth, settings.expiryMonths),
         validExpiryYear: isValidExpiryYear(expiryYear, settings.expiryYears),
         validCvv: doesCvvMatchType(cvv, cardType, settings.cardTypes),
         isExpired: isExpired(expiryMonth, expiryYear),
-        customValidation
+        customValidation: customValidation
       };
     }
 
     function determineCardType(number, options) {
-      const settings = Object.assign({}, _defaults, options);
-      const cardTypes = settings.cardTypes;
-      const keys = Object.keys(cardTypes);
+      var settings = Object.assign({}, _defaults, options);
+      var cardTypes = settings.cardTypes;
+      var keys = Object.keys(cardTypes);
 
       number = sanitizeNumberString(number);
 
-      for (let i = 0; i < keys.length; ++i) {
-        const key = keys[i];
-        const type = cardTypes[key];
+      for (var i = 0; i < keys.length; ++i) {
+        var key = keys[i];
+        var type = cardTypes[key];
 
         if (type.cardPattern.test(number) || settings.allowPartial === true && type.partialPattern.test(number)) {
           return type.cardType;
@@ -135,7 +141,7 @@
     }
 
     function isValidExpiryMonth(month, options) {
-      const settings = Object.assign({}, _defaults.expiryMonths, options);
+      var settings = Object.assign({}, _defaults.expiryMonths, options);
 
       if (typeof month === 'string' && month.length > 2) {
         return false;
@@ -146,7 +152,7 @@
     }
 
     function isValidExpiryYear(year, options) {
-      const settings = Object.assign({}, _defaults.expiryYears, options);
+      var settings = Object.assign({}, _defaults.expiryYears, options);
 
       if (typeof year === 'string' && year.length !== 4) {
         return false;
@@ -157,8 +163,8 @@
     }
 
     function doesNumberMatchType(number, type, options) {
-      const settings = Object.assign({}, _defaults.cardTypes, options);
-      const patterns = settings[type];
+      var settings = Object.assign({}, _defaults.cardTypes, options);
+      var patterns = settings[type];
 
       if (!patterns) {
         return false;
@@ -168,8 +174,8 @@
     }
 
     function doesCvvMatchType(number, type, options) {
-      const settings = Object.assign({}, _defaults.cardTypes, options);
-      const patterns = settings[type];
+      var settings = Object.assign({}, _defaults.cardTypes, options);
+      var patterns = settings[type];
 
       if (!patterns) {
         return false;
@@ -184,7 +190,7 @@
 
       // Cards are good until the end of the month
       // http://stackoverflow.com/questions/54037/credit-card-expiration-dates-inclusive-or-exclusive
-      const expiration = new Date(year, month);
+      var expiration = new Date(year, month);
 
       return Date.now() >= expiration;
     }
@@ -196,11 +202,11 @@
         return false;
       }
 
-      let nCheck = 0;
-      let bEven = false;
-      let nDigit;
+      var nCheck = 0;
+      var bEven = false;
+      var nDigit = undefined;
 
-      for (let i = number.length - 1; i >= 0; --i) {
+      for (var i = number.length - 1; i >= 0; --i) {
         nDigit = ~ ~number.charAt(i);
 
         if (bEven) {
@@ -242,31 +248,31 @@
     }
 
     function _setupCardTypeAliases(type, aliases) {
-      for (let i = 0; i < aliases.length; ++i) {
+      for (var i = 0; i < aliases.length; ++i) {
         _defaults.cardTypes[aliases[i]] = _defaults.cardTypes[type];
       }
     }
 
     module.exports = {
-      validate,
-      determineCardType,
-      isValidCardNumber,
-      isValidExpiryMonth,
-      isValidExpiryYear,
-      doesNumberMatchType,
-      doesCvvMatchType,
-      isExpired,
-      luhn,
-      sanitizeNumberString,
-      defaults,
-      reset
+      validate: validate,
+      determineCardType: determineCardType,
+      isValidCardNumber: isValidCardNumber,
+      isValidExpiryMonth: isValidExpiryMonth,
+      isValidExpiryYear: isValidExpiryYear,
+      doesNumberMatchType: doesNumberMatchType,
+      doesCvvMatchType: doesCvvMatchType,
+      isExpired: isExpired,
+      luhn: luhn,
+      sanitizeNumberString: sanitizeNumberString,
+      defaults: defaults,
+      reset: reset
     };
   }, { "reach": 3 }], 3: [function (require, module, exports) {
     'use strict';
 
     module.exports = reach;
 
-    const defaults = {
+    var defaults = {
       separator: '.',
       strict: false,
       default: undefined
@@ -274,15 +280,15 @@
 
     function reach(obj, chain, options) {
       if (typeof chain !== 'string') {
-        throw new TypeError(`Reach path must a string. Found ${ chain }.`);
+        throw new TypeError("Reach path must a string. Found " + chain + ".");
       }
 
-      const settings = Object.assign({}, defaults, options);
-      const path = chain.split(settings.separator);
-      let ref = obj;
+      var settings = Object.assign({}, defaults, options);
+      var path = chain.split(settings.separator);
+      var ref = obj;
 
-      for (let i = 0; i < path.length; ++i) {
-        let key = path[i];
+      for (var i = 0; i < path.length; ++i) {
+        var key = path[i];
 
         if (key[0] === '-' && Array.isArray(ref)) {
           key = key.slice(1, key.length);
@@ -290,9 +296,9 @@
         }
 
         // ref must be an object or function and contain key
-        if (ref === null || typeof ref !== 'object' && typeof ref !== 'function' || !(key in ref)) {
+        if (ref === null || (typeof ref === "undefined" ? "undefined" : _typeof(ref)) !== 'object' && typeof ref !== 'function' || !(key in ref)) {
           if (settings.strict) {
-            throw new Error(`Invalid segment, ${ key }, in reach path ${ chain }.`);
+            throw new Error("Invalid segment, " + key + ", in reach path " + chain + ".");
           }
 
           return settings.default;
